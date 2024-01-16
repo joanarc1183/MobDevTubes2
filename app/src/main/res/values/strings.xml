@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Tubes 2</string>
+
+    <string name="kategori1">people</string>
+    <string name="kategori2">planets</string>
+    <string name="kategori3">starships</string>
 </resources>

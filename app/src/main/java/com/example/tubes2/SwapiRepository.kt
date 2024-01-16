@@ -22,5 +22,4 @@ class SwapiRepository {
         swapiService.getDetails("people", id).enqueue(callback)
     }
 
-    // Tambahkan metode lain sesuai kebutuhan Anda
 }

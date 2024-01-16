@@ -21,33 +21,32 @@ class HomeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val btnPeople = binding.btnPeople
-        val btnFilms = binding.btnFilms
-        val btnPlanets = binding.btnPlanets
+        val btn1 = binding.btn1
+        val btn2 = binding.btn2
+        val btn3 = binding.btn3
 
-        btnPeople.setOnClickListener {
-            startQuiz("people")
+        btn1.setOnClickListener {
+            startQuiz("${btn1.text}")
         }
 
-        btnFilms.setOnClickListener {
-            startQuiz("films")
+        btn2.setOnClickListener {
+            startQuiz("${btn2.text}")
         }
 
-        btnPlanets.setOnClickListener {
-            startQuiz("planets")
+        btn3.setOnClickListener {
+            startQuiz("${btn3.text}")
         }
     }
 
     private fun startQuiz(theme: String) {
-        val fragment = QuizFragment.newInstance()
-        val presenter = QuizPresenter(fragment)
-        presenter.startQuiz(theme)
-
         val quizFragment = QuizFragment()
+        val bundle = Bundle()
+        bundle.putString("theme", theme)
+        quizFragment.arguments = bundle
+
         requireFragmentManager().beginTransaction()
             .replace(R.id.fragmentContainer, quizFragment)
             .addToBackStack(null)
             .commit()
-
     }
 }

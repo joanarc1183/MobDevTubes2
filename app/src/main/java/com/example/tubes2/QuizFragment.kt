@@ -1,6 +1,7 @@
 package com.example.tubes2
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,9 @@ class QuizFragment : Fragment(), QuizContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val theme = arguments?.getString("theme")
+        Log.d("alhamdulilah", "${theme}")
 
         swapiRepository = SwapiRepository()
 

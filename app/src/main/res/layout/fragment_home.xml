@@ -7,21 +7,21 @@
     android:id="@+id/fragmentHome">
 
     <Button
-        android:id="@+id/btnPeople"
+        android:id="@+id/btn1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="People Theme" />
+        android:text="@string/kategori1" />
 
     <Button
-        android:id="@+id/btnFilms"
+        android:id="@+id/btn2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Films Theme" />
+        android:text="@string/kategori2" />
 
     <Button
-        android:id="@+id/btnPlanets"
+        android:id="@+id/btn3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Planets Theme" />
+        android:text="@string/kategori3" />
 
 </LinearLayout>
