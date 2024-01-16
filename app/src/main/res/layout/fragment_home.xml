@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:id="@+id/fragmentHome">
+
+    <Button
+        android:id="@+id/btnPeople"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="People Theme" />
+
+    <Button
+        android:id="@+id/btnFilms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Films Theme" />
+
+    <Button
+        android:id="@+id/btnPlanets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Planets Theme" />
+
+</LinearLayout>

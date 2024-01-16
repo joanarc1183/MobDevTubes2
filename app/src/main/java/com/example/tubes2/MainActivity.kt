@@ -10,8 +10,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(this.binding.root)
 
-
+        val homeFragment = HomeFragment()
+        supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, homeFragment).commit()
     }
 }
