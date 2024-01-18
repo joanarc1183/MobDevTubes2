@@ -38,7 +38,7 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
         val activity = requireActivity() as MainActivity
         val quizScoreModel = activity.quiz
 
-        // Initialize presenter and sensor
+        // Init presenter dan sensor
         presenter = QuizPresenter(this, requireContext(), swapiRepository, quizScoreModel)
         sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
@@ -78,6 +78,5 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // Not needed for this example
     }
 }

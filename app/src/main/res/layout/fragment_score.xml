@@ -1,15 +1,70 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:gravity="center">
 
-    <TextView
-        android:id="@+id/isiScore"
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/wp6408978" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient"/>
+
+    <LinearLayout
+        android:id="@+id/scoreContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Score" />
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:layout_centerInParent="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/score"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter_semibold"/>
+        <TextView
+            android:id="@+id/isiScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Score akan mereplace ini"
+            android:textAlignment="center"
+            android:textSize="40sp"
+            android:textColor="@color/yellow"
+            android:fontFamily="@font/inter_black"/>
+        <TextView
+            android:layout_marginTop="50sp"
+            android:id="@+id/thanks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/thankyou"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter_semibold"/>
+    </LinearLayout>
 
+    <Button
+        android:id = "@+id/playAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"
+        android:text="@string/playAgain"
+        android:textColor="@color/white"
+        android:layout_below="@id/scoreContainer"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:background="@drawable/rounded_square"/>
 
-</LinearLayout>
+</RelativeLayout>

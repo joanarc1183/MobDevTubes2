@@ -3,13 +3,93 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_vertical"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/isiQuestion"
+    <ImageView
+        android:id="@+id/imageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:src="@drawable/attackclone"
+        android:background="@drawable/gradial"
+        android:padding="20dp"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Question" />
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Question"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter_semibold"/>
+        <TextView
+            android:id="@+id/isiQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Text akan mereplace ini"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textColor="@color/yellow"
+            android:fontFamily="@font/inter_black"/>
+    </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:textAlignment="center"
+        android:layout_marginTop="50dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:layout_alignParentLeft="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/left"
+                android:textSize="20sp"
+                android:fontFamily="@font/inter"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/option_false"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:fontFamily="@font/inter_semibold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/right"
+                android:textAlignment="textEnd"
+                android:textSize="20sp"
+                android:fontFamily="@font/inter"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/option_true"
+                android:textAlignment="textEnd"
+                android:textSize="20sp"
+                android:fontFamily="@font/inter_semibold"/>
+        </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.tubes2.databinding.FragmentScoreBinding
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -31,7 +32,19 @@ class ScoreFragment : Fragment() {
         val activity = requireActivity() as MainActivity
         val quizScoreModel = activity.quiz
 
-        binding.isiScore.text = "Score: ${quizScoreModel.calculateScore()}"
+        val formattedScore = String.format("%.2f", quizScoreModel.calculateScore())
+        binding.isiScore.text = formattedScore
+
+        val button_play = binding.playAgain
+        val fragmentContainer = requireActivity().findViewById<View>(R.id.fragmentContainer)
+
+        button_play.setOnClickListener {
+            val homeFragment = HomeFragment()
+            val transaction: FragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(fragmentContainer.id, homeFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
     }
 
     override fun onResume() {

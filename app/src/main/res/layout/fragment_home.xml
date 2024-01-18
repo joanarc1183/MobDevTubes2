@@ -15,7 +15,9 @@
         android:textAlignment="center"
         android:textSize="16dp"
         android:textStyle="bold"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/white"/>
 
     <LinearLayout
         android:id="@+id/option1"
@@ -28,23 +30,35 @@
         android:background="@drawable/rounded_corners"
         android:paddingHorizontal="20dp"
         android:gravity="center_vertical">
-        <TextView
-            android:id="@+id/category1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_weight="2.5"
-            android:text="@string/kategori1"
-            android:textSize="35sp"
-            android:textColor="@color/white"
-            />
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/category1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_black"
+                android:text="@string/kategori1"
+                android:textColor="@color/yellow"
+                android:textSize="33sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contoh1"
+                android:textColor="@color/white"
+                />
+        </LinearLayout>
 
         <ImageView
-            android:id="@+id/optiontext1"
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:layout_weight="0.5"
             app:srcCompat="@drawable/darthvader"
-            android:textColor="@color/white"
             android:background="@drawable/gradial"
             android:padding="10dp"/>
     </LinearLayout>
@@ -60,21 +74,34 @@
         android:background="@drawable/rounded_corners"
         android:paddingHorizontal="20dp"
         android:gravity="center_vertical">
-        <TextView
-            android:id="@+id/category2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_weight="2.5"
-            android:text="@string/kategori2"
-            android:textSize="35sp"
-            android:textColor="@color/white"/>
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/category2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_black"
+                android:text="@string/kategori2"
+                android:textColor="@color/yellow"
+                android:textSize="33sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contoh3"
+                android:textColor="@color/white"
+                />
+        </LinearLayout>
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:layout_weight="0.5"
             app:srcCompat="@drawable/deathstar"
-            android:textColor="@color/white"
             android:background="@drawable/gradial"
             android:padding="10dp"/>
     </LinearLayout>
@@ -90,14 +117,30 @@
         android:background="@drawable/rounded_corners"
         android:paddingHorizontal="20dp"
         android:gravity="center_vertical">
-        <TextView
-            android:id="@+id/category3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_weight="2.5"
-            android:textColor="@color/white"
-            android:text="@string/kategori3"
-            android:textSize="35sp" />
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/category3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_black"
+                android:text="@string/kategori3"
+                android:textColor="@color/yellow"
+                android:textSize="33sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contoh3"
+                android:textColor="@color/white"
+                />
+        </LinearLayout>
+
 
         <ImageView
             android:layout_width="100dp"
