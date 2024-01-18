@@ -18,8 +18,8 @@ class SwapiRepository {
         swapiService = retrofit.create(SwapiService::class.java)
     }
 
-    fun getPeopleDetails(id: String, callback: Callback<SwapiResponse>) {
-        return swapiService.getDetails("people", id).enqueue(callback)
-    }
+//    fun getPeopleDetails(id: String, callback: Callback<SwapiResponse>) {
+//        return swapiService.getDetails("people", id).enqueue(callback)
+//    }
 
 }

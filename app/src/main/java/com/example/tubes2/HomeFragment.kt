@@ -1,15 +1,30 @@
 package com.example.tubes2
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.tubes2.databinding.FragmentHomeBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class HomeFragment: Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private val swapiService: SwapiService
 
+    init {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://www.swapi.tech/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        swapiService = retrofit.create(SwapiService::class.java)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,12 +56,39 @@ class HomeFragment: Fragment() {
     private fun startQuiz(theme: String) {
         val quizFragment = QuizFragment()
         val bundle = Bundle()
-        bundle.putString("theme", theme)
-        quizFragment.arguments = bundle
 
-        requireFragmentManager().beginTransaction()
-            .replace(R.id.fragmentContainer, quizFragment)
-            .addToBackStack(null)
-            .commit()
+        // Mendapatkan panjang dari API
+//        val call = swapiService.getLength(theme)
+//        call.enqueue(object : Callback<SwapiResponseLength> {
+//            override fun onResponse(call: Call<SwapiResponseLength>, response: Response<SwapiResponseLength>) {
+//                if (response.isSuccessful) {
+//                    Log.d("hallo", "${response.body()}")
+//
+//                    val length = response.body()?.total_pages?.toInt() ?: 0
+
+                    // Menambahkan variabel ke dalam Bundle
+                    bundle.putString("theme", theme)
+                    bundle.putInt("length", 10)
+
+                    // Menetapkan Bundle ke Fragment
+                    quizFragment.arguments = bundle
+                    Log.d("hallo", "$10 $theme")
+
+                    // Menampilkan QuizFragment
+                    requireFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, quizFragment)
+                        .addToBackStack(null)
+                        .commit()
+
+//                } else {
+//                    Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+//                }
+//            }
+
+//            override fun onFailure(call: Call<SwapiResponseLength>, t: Throwable) {
+//                // Handle error
+//                Log.e("onFailureMsgError", "onFailure called", t)
+//            }
+//        })
     }
 }

@@ -6,5 +6,14 @@ import retrofit2.http.Path
 
 interface SwapiService {
     @GET("{category}/{id}")
-    fun getDetails(@Path("category") category: String, @Path("id") id: String): Call<SwapiResponse>
+    fun getDetailsPeople(@Path("category") category: String, @Path("id") id: String): Call<SwapiResponsePeople>
+
+    @GET("{category}/{id}")
+    fun getDetailsPlanets(@Path("category") category: String, @Path("id") id: String): Call<SwapiResponsePlanets>
+
+    @GET("{category}/{id}")
+    fun getDetailsStarships(@Path("category") category: String, @Path("id") id: String): Call<SwapiResponseStarships>
+
+    @GET("{category}")
+    fun getLength(@Path("category") category: String): Call<SwapiResponseLength>
 }

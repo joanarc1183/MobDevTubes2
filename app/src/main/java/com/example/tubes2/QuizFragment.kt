@@ -12,8 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.tubes2.databinding.FragmentQuizBinding
 import retrofit2.Call
@@ -21,16 +19,16 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.random.Random
 
 class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
 
     private lateinit var presenter: QuizContract.Presenter
     private lateinit var tvQuestion: TextView
     private lateinit var binding: FragmentQuizBinding
-
-//    private lateinit var swapiRepository: SwapiRepository
     private val swapiService: SwapiService
-
+    private var theme: String = ""
+    private var length: Int = 0
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
 
@@ -59,25 +57,20 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
         presenter = QuizPresenter(this, requireContext())
         sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-
+        
         // Your existing code for fetching data from API
-        val call = swapiService.getDetails("people", "1")
-        call.enqueue(object : Callback<SwapiResponse>{
-            override fun onResponse(call: Call<SwapiResponse>, response: Response<SwapiResponse>) {
-                if (response.isSuccessful) {
-                    val result = response.body()?.result?.properties
-                    val question = "Apakah ${result?.name} memiliki rambut ${result?.hair_color}?"
-                    binding.isiQuestion.text = question
-                } else {
-                    Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
-                }
-            }
 
-            override fun onFailure(call: Call<SwapiResponse>, t: Throwable) {
-                // Handle error
-                Log.e("onFailureMsgError", "onFailure called", t)
-            }
-        })
+        // theme game and length theme
+        this.theme = arguments?.getString("theme")!!
+        this.length = arguments?.getInt("length")!!
+
+        if (this.theme == "people"){
+            themePeople()
+        } else if (this.theme == "planets"){
+            themePlanets()
+        } else {
+            themeStarships()
+        }
     }
 
     override fun onResume() {
@@ -102,6 +95,73 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
 
     override fun showQuestion(question: String) {
         tvQuestion.text = question
+    }
+
+    private fun themePeople(){
+        val id = Random.nextInt(1, this.length)
+        val call = swapiService.getDetailsPeople("${this.theme}", "$id")
+        call.enqueue(object : Callback<SwapiResponsePeople>{
+            override fun onResponse(call: Call<SwapiResponsePeople>, response: Response<SwapiResponsePeople>) {
+                if (response.isSuccessful) {
+                    val result = response.body()?.result?.properties
+                    val question = "Does ${result?.name} have ${result?.eye_color} eyes?"
+                    binding.isiQuestion.text = question
+                } else {
+                    Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+                }
+            }
+
+            override fun onFailure(call: Call<SwapiResponsePeople>, t: Throwable) {
+                // Handle error
+                Log.e("onFailureMsgError", "onFailure called", t)
+            }
+        })
+    }
+
+    private fun themePlanets(){
+        val id = Random.nextInt(1, this.length)
+
+        val call = swapiService.getDetailsPlanets("${this.theme}", "$id")
+        call.enqueue(object : Callback<SwapiResponsePlanets>{
+            override fun onResponse(call: Call<SwapiResponsePlanets>, response: Response<SwapiResponsePlanets>) {
+                if (response.isSuccessful) {
+                    val result = response.body()?.result?.properties
+                    val question = "Is ${result?.terrain} the terrain of the planet ${result?.name}?"
+                    binding.isiQuestion.text = question
+                } else {
+                    Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+                }
+            }
+
+            override fun onFailure(call: Call<SwapiResponsePlanets>, t: Throwable) {
+                // Handle error
+                Log.e("onFailureMsgError", "onFailure called", t)
+            }
+        })
+    }
+
+    private fun themeStarships(){
+        val availableNumbers = listOf(2,3,5,9,11,10,13,15,12,17)
+        val randomIndex = Random.nextInt(availableNumbers.size)
+        val id = availableNumbers[randomIndex]
+
+        val call = swapiService.getDetailsStarships("${this.theme}", "$id")
+        call.enqueue(object : Callback<SwapiResponseStarships>{
+            override fun onResponse(call: Call<SwapiResponseStarships>, response: Response<SwapiResponseStarships>) {
+                if (response.isSuccessful) {
+                    val result = response.body()?.result?.properties
+                    val question = "Is ${result?.name} manufactured by ${result?.manufacturer}?"
+                    binding.isiQuestion.text = question
+                } else {
+                    Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+                }
+            }
+
+            override fun onFailure(call: Call<SwapiResponseStarships>, t: Throwable) {
+                // Handle error
+                Log.e("onFailureMsgError", "onFailure called", t)
+            }
+        })
     }
 
     override fun showScore(score: Int) {
