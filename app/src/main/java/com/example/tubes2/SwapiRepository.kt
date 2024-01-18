@@ -1,12 +1,12 @@
 package com.example.tubes2
 
+import android.util.Log
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SwapiRepository {
-
     private val swapiService: SwapiService
 
     init {
@@ -19,7 +19,7 @@ class SwapiRepository {
     }
 
     fun getPeopleDetails(id: String, callback: Callback<SwapiResponse>) {
-        swapiService.getDetails("people", id).enqueue(callback)
+        return swapiService.getDetails("people", id).enqueue(callback)
     }
 
 }
