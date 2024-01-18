@@ -13,14 +13,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(this.binding.root)
+        supportActionBar?.hide()
+        val startFragment = StartFragment()
 
         val connMgr = this.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val nc = connMgr.getNetworkCapabilities(connMgr.activeNetwork)
 
         if (nc != null) {
             //
-            val homeFragment = HomeFragment()
-            supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, homeFragment).commit()
+            supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, startFragment).commit()
         } else {
             // No connection
 //            this.setResult("No network connection available.")
