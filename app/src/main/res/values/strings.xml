@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Tubes 2</string>
 
-    <string name="kategori1">people</string>
-    <string name="kategori2">planets</string>
-    <string name="kategori3">starships</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="theme">Choose Theme :</string>
+    <string name="kategori1">PEOPLE</string>
+    <string name="kategori2">PLANETS</string>
+    <string name="kategori3">STARSHIPS</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

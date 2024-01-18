@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.tubes2.databinding.FragmentHomeBinding
 import retrofit2.Call
@@ -36,20 +37,20 @@ class HomeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val btn1 = binding.btn1
-        val btn2 = binding.btn2
-        val btn3 = binding.btn3
+        val option1 = binding.option1
+        val option2 = binding.option2
+        val option3 = binding.option3
 
-        btn1.setOnClickListener {
-            startQuiz("${btn1.text}")
+        option1.setOnClickListener {
+            startQuiz(binding.option1.toString())
         }
 
-        btn2.setOnClickListener {
-            startQuiz("${btn2.text}")
+        option2.setOnClickListener {
+            startQuiz(binding.option2.toString())
         }
 
-        btn3.setOnClickListener {
-            startQuiz("${btn3.text}")
+        option3.setOnClickListener {
+            startQuiz(binding.option3.toString())
         }
     }
 

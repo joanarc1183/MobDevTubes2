@@ -2,26 +2,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:weightSum="3"
     android:padding="16dp"
     android:id="@+id/fragmentHome">
 
-    <Button
-        android:id="@+id/btn1"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/kategori1" />
+        android:text="@string/theme"
+        android:textAlignment="center"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"/>
 
-    <Button
-        android:id="@+id/btn2"
+    <LinearLayout
+        android:id="@+id/option1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/kategori2" />
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_marginBottom="50dp"
+        android:weightSum="3"
+        android:background="@drawable/rounded_corners"
+        android:paddingHorizontal="20dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:text="@string/kategori1"
+            android:textSize="35sp"
+            android:textColor="@color/white"
+            />
 
-    <Button
-        android:id="@+id/btn3"
+        <ImageView
+            android:id="@+id/optiontext1"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_weight="0.5"
+            app:srcCompat="@drawable/darthvader"
+            android:textColor="@color/white"
+            android:background="@drawable/gradial"
+            android:padding="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/option2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/kategori3" />
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_marginBottom="50dp"
+        android:weightSum="3"
+        android:background="@drawable/rounded_corners"
+        android:paddingHorizontal="20dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/optiontext2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:text="@string/kategori2"
+            android:textSize="35sp"
+            android:textColor="@color/white"/>
 
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_weight="0.5"
+            app:srcCompat="@drawable/deathstar"
+            android:textColor="@color/white"
+            android:background="@drawable/gradial"
+            android:padding="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/option3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_marginBottom="50dp"
+        android:weightSum="3"
+        android:background="@drawable/rounded_corners"
+        android:paddingHorizontal="20dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/optiontext3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:textColor="@color/white"
+            android:text="@string/kategori3"
+            android:textSize="35sp" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_weight="0.5"
+            app:srcCompat="@drawable/millenium"
+            android:background="@drawable/gradial"
+            android:padding="10dp"/>
+    </LinearLayout>
 </LinearLayout>
