@@ -57,38 +57,18 @@ class HomeFragment: Fragment() {
         val quizFragment = QuizFragment()
         val bundle = Bundle()
 
-        // Mendapatkan panjang dari API
-//        val call = swapiService.getLength(theme)
-//        call.enqueue(object : Callback<SwapiResponseLength> {
-//            override fun onResponse(call: Call<SwapiResponseLength>, response: Response<SwapiResponseLength>) {
-//                if (response.isSuccessful) {
-//                    Log.d("hallo", "${response.body()}")
-//
-//                    val length = response.body()?.total_pages?.toInt() ?: 0
+        // Menambahkan variabel ke dalam Bundle
+        bundle.putString("theme", theme)
+        bundle.putInt("length", 10)
 
-                    // Menambahkan variabel ke dalam Bundle
-                    bundle.putString("theme", theme)
-                    bundle.putInt("length", 10)
+        // Menetapkan Bundle ke Fragment
+        quizFragment.arguments = bundle
+        Log.d("astafirulah", "$theme")
+        // Menampilkan QuizFragment
+        requireFragmentManager().beginTransaction()
+            .replace(R.id.fragmentContainer, quizFragment)
+            .addToBackStack(null)
+            .commit()
 
-                    // Menetapkan Bundle ke Fragment
-                    quizFragment.arguments = bundle
-                    Log.d("hallo", "$10 $theme")
-
-                    // Menampilkan QuizFragment
-                    requireFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer, quizFragment)
-                        .addToBackStack(null)
-                        .commit()
-
-//                } else {
-//                    Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
-//                }
-//            }
-
-//            override fun onFailure(call: Call<SwapiResponseLength>, t: Throwable) {
-//                // Handle error
-//                Log.e("onFailureMsgError", "onFailure called", t)
-//            }
-//        })
     }
 }

@@ -7,7 +7,13 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.widget.Toast
 import android.os.Handler
+import android.util.Log
+import kotlinx.coroutines.*
 import androidx.core.content.ContextCompat.getSystemService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.random.Random
 
 interface QuizContract {
     interface View {
@@ -16,13 +22,13 @@ interface QuizContract {
     }
 
     interface Presenter {
-        fun startQuiz(theme: String)
+        fun startQuiz(theme: String, length: Int): Triple<String, String, String>
         fun answerQuestion(isTrue: Boolean)
         fun handleSensorEvent(event: SensorEvent)
     }
 }
 
-class QuizPresenter(private val view: QuizContract.View, private val context: Context) : QuizContract.Presenter, SensorEventListener {
+class QuizPresenter(private val view: QuizContract.View, private val context: Context, private var swapiRepository: SwapiRepository) : QuizContract.Presenter, SensorEventListener {
 
     private val questions = mutableListOf<QuizQuestion>()
     private var currentQuestionIndex = 0
@@ -39,15 +45,88 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     }
 
-    override fun startQuiz(theme: String) {
-        // Implement logic to fetch questions from https://www.swapi.tech/ based on the selected theme
-        // For simplicity, hardcoded questions are used in this example
-        questions.clear()
-        questions.add(QuizQuestion("Is it true?", true))
-        questions.add(QuizQuestion("Is it false?", false))
-        questions.add(QuizQuestion("Another true or false?", true))
+    override fun startQuiz(theme: String, length: Int): Triple<String, String, String> {
+        val result = runBlocking {
+            if (theme == "people") {
+                themePeople(length)
+            } else if (theme == "planets") {
+                themePlanets(length)
+            } else {
+                themeStarships(length)
+            }
+        }
+        return result
+    }
 
-        showCurrentQuestion()
+    private suspend fun themePeople(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
+        val id = Random.nextInt(1, length)
+        var variable1 = ""
+        var variable2 = ""
+        var question = ""
+
+        try {
+            val response = swapiRepository.getPeopleDetailsAsync("$id").await()
+            if (response.isSuccessful) {
+                val result = response.body()?.result?.properties
+                question = "Does ${result?.name} have ${result?.eye_color} eyes?"
+                variable1 = result?.name.toString()
+                variable2 = result?.eye_color.toString()
+            } else {
+                Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+            }
+        } catch (t: Throwable) {
+            Log.e("onFailureMsgError", "onFailure called", t)
+        }
+
+        return@withContext Triple(variable1, variable2, question)
+    }
+
+    private suspend fun themePlanets(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
+        val id = Random.nextInt(1, length)
+        var variable1 = ""
+        var variable2 = ""
+        var question = ""
+
+        try {
+            val response = swapiRepository.getPlanetsDetailsAsync("$id").await()
+            if (response.isSuccessful) {
+                val result = response.body()?.result?.properties
+                question = "Is ${result?.terrain} the terrain of the planet ${result?.name}?"
+                variable1 = result?.name.toString()
+                variable2 = result?.terrain.toString()
+            } else {
+                Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+            }
+        } catch (t: Throwable) {
+            Log.e("onFailureMsgError", "onFailure called", t)
+        }
+
+        return@withContext Triple(variable1, variable2, question)
+    }
+
+    private suspend fun themeStarships(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
+        val availableNumbers = listOf(2, 3, 5, 9, 11, 10, 13, 15, 12, 17)
+        val randomIndex = Random.nextInt(availableNumbers.size)
+        val id = availableNumbers[randomIndex]
+        var variable1 = ""
+        var variable2 = ""
+        var question = ""
+
+        try {
+            val response = swapiRepository.getStarshipsDetailsAsync("$id").await()
+            if (response.isSuccessful) {
+                val result = response.body()?.result?.properties
+                question = "Is ${result?.name} manufactured by ${result?.manufacturer}?"
+                variable1 = result?.name.toString()
+                variable2 = result?.manufacturer.toString()
+            } else {
+                Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+            }
+        } catch (t: Throwable) {
+            Log.e("onFailureMsgError", "onFailure called", t)
+        }
+
+        return@withContext Triple(variable1, variable2, question)
     }
 
     private fun showCurrentQuestion() {
