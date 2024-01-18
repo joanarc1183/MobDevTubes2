@@ -54,14 +54,7 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
 
     override fun onDetection() {
         val quizFragment = Quiz2Fragment()
-        val bundle = Bundle()
 
-        // Menambahkan variabel ke dalam Bundle
-        bundle.putString("theme", theme)
-        bundle.putInt("length", 10)
-
-        // Menetapkan Bundle ke Fragment
-        quizFragment.arguments = bundle
         requireFragmentManager().beginTransaction()
             .replace(R.id.fragmentContainer, quizFragment)
             .addToBackStack(null)
