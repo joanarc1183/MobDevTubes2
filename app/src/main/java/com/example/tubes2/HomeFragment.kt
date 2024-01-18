@@ -40,17 +40,16 @@ class HomeFragment: Fragment() {
         val option1 = binding.option1
         val option2 = binding.option2
         val option3 = binding.option3
-
         option1.setOnClickListener {
-            startQuiz(binding.option1.toString())
+            startQuiz(binding.category1.text.toString().lowercase())
         }
 
         option2.setOnClickListener {
-            startQuiz(binding.option2.toString())
+            startQuiz(binding.category1.text.toString().lowercase())
         }
 
         option3.setOnClickListener {
-            startQuiz(binding.option3.toString())
+            startQuiz(binding.category3.text.toString().lowercase())
         }
     }
 
@@ -64,7 +63,7 @@ class HomeFragment: Fragment() {
 
         // Menetapkan Bundle ke Fragment
         quizFragment.arguments = bundle
-
+        Log.d("halah", "$theme")
         // Menampilkan QuizFragment
         requireFragmentManager().beginTransaction()
             .replace(R.id.fragmentContainer, quizFragment)
