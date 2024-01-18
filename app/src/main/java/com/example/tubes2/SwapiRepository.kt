@@ -35,15 +35,4 @@ class SwapiRepository {
             swapiService.getDetailsStarships("starships", id).execute()
         }
 
-//    fun getPeopleDetails(id: String, callback: Callback<SwapiResponsePeople>) {
-//        swapiService.getDetailsPeople("people", id).enqueue(callback)
-//    }
-//
-//    fun getPlanetsDetails(id: String, callback: Callback<SwapiResponsePlanets>) {
-//        return swapiService.getDetailsPlanets("planets", id).enqueue(callback)
-//    }
-//
-//    fun getStarshipsDetails(id: String, callback: Callback<SwapiResponseStarships>) {
-//        swapiService.getDetailsStarships("starships", id).enqueue(callback)
-//    }
 }

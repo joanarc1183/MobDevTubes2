@@ -11,8 +11,3 @@ data class SwapiResponsePlanets(
 data class SwapiResponseStarships(
     val result: PropertiesStarships
 )
-
-data class SwapiResponseLength (
-    val total_pages: Int,
-    val results: String
-)

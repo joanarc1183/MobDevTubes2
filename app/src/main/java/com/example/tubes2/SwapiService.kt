@@ -13,7 +13,4 @@ interface SwapiService {
 
     @GET("{category}/{id}")
     fun getDetailsStarships(@Path("category") category: String, @Path("id") id: String): Call<SwapiResponseStarships>
-
-    @GET("{category}")
-    fun getLength(@Path("category") category: String): Call<SwapiResponseLength>
 }
