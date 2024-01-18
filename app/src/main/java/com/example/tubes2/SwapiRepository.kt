@@ -35,11 +35,6 @@ class SwapiRepository {
             swapiService.getDetailsStarships("starships", id).execute()
         }
 
-    fun getLengthAsync(category: String): Deferred<Response<SwapiResponseLength>> =
-        CoroutineScope(Dispatchers.IO).async {
-            swapiService.getLength(category).execute()
-        }
-
 //    fun getPeopleDetails(id: String, callback: Callback<SwapiResponsePeople>) {
 //        swapiService.getDetailsPeople("people", id).enqueue(callback)
 //    }

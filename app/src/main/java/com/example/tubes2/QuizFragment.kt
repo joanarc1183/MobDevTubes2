@@ -61,7 +61,6 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
         val presenter = presenter.startQuiz(this.theme, this.length)
 
         binding.isiQuestion.text = presenter.third
-        Log.d("astafirulah", "${presenter}")
 
     }
 

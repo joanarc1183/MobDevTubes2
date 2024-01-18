@@ -35,7 +35,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
     private var score = 0
     private var canAnswer = true
     private val handler = Handler()
-
+    private var answer = ""
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
 
@@ -60,15 +60,19 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
 
     private suspend fun themePeople(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
         val id = Random.nextInt(1, length)
+        val id2 = Random.nextInt(1, length)
         var variable1 = ""
         var variable2 = ""
         var question = ""
 
         try {
             val response = swapiRepository.getPeopleDetailsAsync("$id").await()
+            val response2 = swapiRepository.getPeopleDetailsAsync("$id2").await()
             if (response.isSuccessful) {
                 val result = response.body()?.result?.properties
-                question = "Does ${result?.name} have ${result?.eye_color} eyes?"
+                val result2 = response2.body()?.result?.properties
+                question = "Does ${result?.name} have ${result2?.eye_color} eyes?"
+                answer = (result?.eye_color == result2?.eye_color).toString()
                 variable1 = result?.name.toString()
                 variable2 = result?.eye_color.toString()
             } else {
@@ -81,19 +85,131 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
         return@withContext Triple(variable1, variable2, question)
     }
 
+    private suspend fun themePeople2(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
+        val id = Random.nextInt(1, length)
+        val id2 = Random.nextInt(1, length)
+        var variable1 = ""
+        var variable2 = ""
+        var question = ""
+
+        try {
+            val response = swapiRepository.getPeopleDetailsAsync("$id").await()
+            val response2 = swapiRepository.getPeopleDetailsAsync("$id2").await()
+            if (response.isSuccessful) {
+                val result = response.body()?.result?.properties
+                val result2 = response2.body()?.result?.properties
+                question = "Is ${result?.name} ${result2?.gender}?"
+                answer = (result?.gender == result2?.gender).toString()
+                variable1 = result?.name.toString()
+                variable2 = result?.gender.toString()
+            } else {
+                Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+            }
+        } catch (t: Throwable) {
+            Log.e("onFailureMsgError", "onFailure called", t)
+        }
+
+        return@withContext Triple(variable1, variable2, question)
+    }
+
+    private suspend fun themePeople3(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
+        val id = Random.nextInt(1, length)
+        val id2 = Random.nextInt(1, length)
+        var variable1 = ""
+        var variable2 = ""
+        var question = ""
+
+        try {
+            val response = swapiRepository.getPeopleDetailsAsync("$id").await()
+            val response2 = swapiRepository.getPeopleDetailsAsync("$id2").await()
+            if (response.isSuccessful) {
+                val result = response.body()?.result?.properties
+                val result2 = response2.body()?.result?.properties
+                question = "Is ${result?.name} ${result2?.height} cm tall?"
+                answer = (result?.height == result2?.height).toString()
+                variable1 = result?.name.toString()
+                variable2 = result?.height.toString()
+            } else {
+                Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+            }
+        } catch (t: Throwable) {
+            Log.e("onFailureMsgError", "onFailure called", t)
+        }
+
+        return@withContext Triple(variable1, variable2, question)
+    }
+
     private suspend fun themePlanets(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
         val id = Random.nextInt(1, length)
+        val id2 = Random.nextInt(1, length)
         var variable1 = ""
         var variable2 = ""
         var question = ""
 
         try {
             val response = swapiRepository.getPlanetsDetailsAsync("$id").await()
+            val response2 = swapiRepository.getPlanetsDetailsAsync("$id2").await()
             if (response.isSuccessful) {
                 val result = response.body()?.result?.properties
-                question = "Is ${result?.terrain} the terrain of the planet ${result?.name}?"
+                val result2 = response2.body()?.result?.properties
+                question = "Is ${result2?.terrain} the terrain of the planet ${result?.name}?"
+                answer = (result?.terrain == result2?.terrain).toString()
                 variable1 = result?.name.toString()
                 variable2 = result?.terrain.toString()
+            } else {
+                Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+            }
+        } catch (t: Throwable) {
+            Log.e("onFailureMsgError", "onFailure called", t)
+        }
+
+        return@withContext Triple(variable1, variable2, question)
+    }
+
+    private suspend fun themePlanets2(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
+        val id = Random.nextInt(1, length)
+        val id2 = Random.nextInt(1, length)
+        var variable1 = ""
+        var variable2 = ""
+        var question = ""
+
+        try {
+            val response = swapiRepository.getPlanetsDetailsAsync("$id").await()
+            val response2 = swapiRepository.getPlanetsDetailsAsync("$id2").await()
+            if (response.isSuccessful) {
+                val result = response.body()?.result?.properties
+                val result2 = response2.body()?.result?.properties
+                question = "Does ${result?.name} have ${result2?.climate} climate?"
+                answer = (result?.climate == result2?.climate).toString()
+                variable1 = result?.name.toString()
+                variable2 = result?.climate.toString()
+            } else {
+                Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+            }
+        } catch (t: Throwable) {
+            Log.e("onFailureMsgError", "onFailure called", t)
+        }
+
+        return@withContext Triple(variable1, variable2, question)
+    }
+
+    private suspend fun themePlanets3(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
+        val id = Random.nextInt(1, length)
+        val id2 = Random.nextInt(1, length)
+        var variable1 = ""
+        var variable2 = ""
+        var question = ""
+
+        try {
+            val response = swapiRepository.getPlanetsDetailsAsync("$id").await()
+            val response2 = swapiRepository.getPlanetsDetailsAsync("$id2").await()
+            if (response.isSuccessful) {
+                val result = response.body()?.result?.properties
+                val result2 = response2.body()?.result?.properties
+                question = "Is The ${result?.name} ${result2?.diameter} km in diameter?"
+                answer = (result?.diameter == result2?.diameter).toString()
+                variable1 = result?.name.toString()
+                variable2 = result?.diameter.toString()
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -108,17 +224,79 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
         val availableNumbers = listOf(2, 3, 5, 9, 11, 10, 13, 15, 12, 17)
         val randomIndex = Random.nextInt(availableNumbers.size)
         val id = availableNumbers[randomIndex]
+        val id2 = availableNumbers[randomIndex]
         var variable1 = ""
         var variable2 = ""
         var question = ""
 
         try {
             val response = swapiRepository.getStarshipsDetailsAsync("$id").await()
+            val response2 = swapiRepository.getStarshipsDetailsAsync("$id2").await()
             if (response.isSuccessful) {
                 val result = response.body()?.result?.properties
-                question = "Is ${result?.name} manufactured by ${result?.manufacturer}?"
+                val result2 = response2.body()?.result?.properties
+                question = "Is ${result?.name} starship manufactured by ${result2?.manufacturer}?"
+                answer = (result?.manufacturer == result2?.manufacturer).toString()
                 variable1 = result?.name.toString()
                 variable2 = result?.manufacturer.toString()
+            } else {
+                Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+            }
+        } catch (t: Throwable) {
+            Log.e("onFailureMsgError", "onFailure called", t)
+        }
+
+        return@withContext Triple(variable1, variable2, question)
+    }
+
+    private suspend fun themeStarships2(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
+        val availableNumbers = listOf(2, 3, 5, 9, 11, 10, 13, 15, 12, 17)
+        val randomIndex = Random.nextInt(availableNumbers.size)
+        val id = availableNumbers[randomIndex]
+        val id2 = availableNumbers[randomIndex]
+        var variable1 = ""
+        var variable2 = ""
+        var question = ""
+
+        try {
+            val response = swapiRepository.getStarshipsDetailsAsync("$id").await()
+            val response2 = swapiRepository.getStarshipsDetailsAsync("$id2").await()
+            if (response.isSuccessful) {
+                val result = response.body()?.result?.properties
+                val result2 = response2.body()?.result?.properties
+                question = "Does The ${result?.name} starship have a ${result2?.model} model?"
+                answer = (result?.model == result2?.model).toString()
+                variable1 = result?.name.toString()
+                variable2 = result?.model.toString()
+            } else {
+                Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+            }
+        } catch (t: Throwable) {
+            Log.e("onFailureMsgError", "onFailure called", t)
+        }
+
+        return@withContext Triple(variable1, variable2, question)
+    }
+
+    private suspend fun themeStarships3(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
+        val availableNumbers = listOf(2, 3, 5, 9, 11, 10, 13, 15, 12, 17)
+        val randomIndex = Random.nextInt(availableNumbers.size)
+        val id = availableNumbers[randomIndex]
+        val id2 = availableNumbers[randomIndex]
+        var variable1 = ""
+        var variable2 = ""
+        var question = ""
+
+        try {
+            val response = swapiRepository.getStarshipsDetailsAsync("$id").await()
+            val response2 = swapiRepository.getStarshipsDetailsAsync("$id2").await()
+            if (response.isSuccessful) {
+                val result = response.body()?.result?.properties
+                val result2 = response2.body()?.result?.properties
+                question = "Is it really The ${result?.name} starship have ${result2?.crew} crew?"
+                answer = (result?.crew == result2?.crew).toString()
+                variable1 = result?.name.toString()
+                variable2 = result?.crew.toString()
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
