@@ -4,7 +4,6 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
-import android.hardware.SensorListener
 import android.hardware.SensorManager
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -22,7 +21,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.random.Random
 
-class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
+class Quiz2Fragment : Fragment(), QuizContract.View, SensorEventListener {
 
     private lateinit var presenter: QuizContract.Presenter
     private lateinit var tvQuestion: TextView
@@ -49,6 +48,7 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
 
         // Initialize presenter and sensor
         presenter = QuizPresenter(this, requireContext(), swapiRepository)
+//        presenter = QuizPresenter(this, requireContext())
         sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
@@ -58,14 +58,14 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
         this.theme = arguments?.getString("theme")!!
         this.length = arguments?.getInt("length")!!
 
-        val presenter = presenter.startQuiz(this.theme, this.length, 1)
+        val presenter = presenter.startQuiz(this.theme, this.length,2)
 
         binding.isiQuestion.text = presenter.third
 
     }
 
     override fun onDetection() {
-        val quizFragment = Quiz2Fragment()
+        val quizFragment = Quiz3Fragment()
         val bundle = Bundle()
 
         // Menambahkan variabel ke dalam Bundle
@@ -110,6 +110,6 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
     }
 
     companion object {
-        fun newInstance() = QuizFragment()
+        fun newInstance() = Quiz2Fragment()
     }
 }

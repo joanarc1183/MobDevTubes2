@@ -4,6 +4,7 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
+import android.hardware.SensorListener
 import android.hardware.SensorManager
 import android.widget.Toast
 import android.os.Handler
@@ -19,23 +20,21 @@ interface QuizContract {
     interface View {
         fun showQuestion(question: String)
         fun showScore(score: Int)
+        fun onDetection()
     }
 
     interface Presenter {
-        fun startQuiz(theme: String, length: Int): Triple<String, String, String>
+        fun startQuiz(theme: String, length: Int, number: Int): Triple<String, String, String>
         fun answerQuestion(isTrue: Boolean)
         fun handleSensorEvent(event: SensorEvent)
     }
 }
 
 class QuizPresenter(private val view: QuizContract.View, private val context: Context, private var swapiRepository: SwapiRepository) : QuizContract.Presenter, SensorEventListener {
-
-    private val questions = mutableListOf<QuizQuestion>()
-    private var currentQuestionIndex = 0
     private var score = 0
     private var canAnswer = true
     private val handler = Handler()
-    private var answer = ""
+    private var answer: Boolean = true
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
 
@@ -45,17 +44,41 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     }
 
-    override fun startQuiz(theme: String, length: Int): Triple<String, String, String> {
-        val result = runBlocking {
-            if (theme == "people") {
-                themePeople(length)
-            } else if (theme == "planets") {
-                themePlanets(length)
-            } else {
-                themeStarships(length)
+    override fun startQuiz(theme: String, length: Int, number: Int): Triple<String, String, String> {
+        if (number == 1){
+            val result = runBlocking {
+                if (theme == "people") {
+                    themePeople(length)
+                } else if (theme == "planets") {
+                    themePlanets(length)
+                } else {
+                    themeStarships(length)
+                }
             }
+            return result
+        } else if (number == 2){
+            val result = runBlocking {
+                if (theme == "people") {
+                    themePeople2(length)
+                } else if (theme == "planets") {
+                    themePlanets2(length)
+                } else {
+                    themeStarships2(length)
+                }
+            }
+            return result
+        } else {
+            val result = runBlocking {
+                if (theme == "people") {
+                    themePeople3(length)
+                } else if (theme == "planets") {
+                    themePlanets3(length)
+                } else {
+                    themeStarships3(length)
+                }
+            }
+            return result
         }
-        return result
     }
 
     private suspend fun themePeople(length: Int): Triple<String, String, String> = withContext(Dispatchers.IO) {
@@ -72,7 +95,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result = response.body()?.result?.properties
                 val result2 = response2.body()?.result?.properties
                 question = "Does ${result?.name} have ${result2?.eye_color} eyes?"
-                answer = (result?.eye_color == result2?.eye_color).toString()
+                answer = result?.eye_color == result2?.eye_color
                 variable1 = result?.name.toString()
                 variable2 = result?.eye_color.toString()
             } else {
@@ -99,7 +122,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result = response.body()?.result?.properties
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result?.name} ${result2?.gender}?"
-                answer = (result?.gender == result2?.gender).toString()
+                answer = result?.gender == result2?.gender
                 variable1 = result?.name.toString()
                 variable2 = result?.gender.toString()
             } else {
@@ -126,7 +149,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result = response.body()?.result?.properties
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result?.name} ${result2?.height} cm tall?"
-                answer = (result?.height == result2?.height).toString()
+                answer = result?.height == result2?.height
                 variable1 = result?.name.toString()
                 variable2 = result?.height.toString()
             } else {
@@ -153,7 +176,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result = response.body()?.result?.properties
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result2?.terrain} the terrain of the planet ${result?.name}?"
-                answer = (result?.terrain == result2?.terrain).toString()
+                answer = result?.terrain == result2?.terrain
                 variable1 = result?.name.toString()
                 variable2 = result?.terrain.toString()
             } else {
@@ -180,7 +203,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result = response.body()?.result?.properties
                 val result2 = response2.body()?.result?.properties
                 question = "Does ${result?.name} have ${result2?.climate} climate?"
-                answer = (result?.climate == result2?.climate).toString()
+                answer = result?.climate == result2?.climate
                 variable1 = result?.name.toString()
                 variable2 = result?.climate.toString()
             } else {
@@ -207,7 +230,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result = response.body()?.result?.properties
                 val result2 = response2.body()?.result?.properties
                 question = "Is The ${result?.name} ${result2?.diameter} km in diameter?"
-                answer = (result?.diameter == result2?.diameter).toString()
+                answer = result?.diameter == result2?.diameter
                 variable1 = result?.name.toString()
                 variable2 = result?.diameter.toString()
             } else {
@@ -236,7 +259,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result = response.body()?.result?.properties
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result?.name} starship manufactured by ${result2?.manufacturer}?"
-                answer = (result?.manufacturer == result2?.manufacturer).toString()
+                answer = result?.manufacturer == result2?.manufacturer
                 variable1 = result?.name.toString()
                 variable2 = result?.manufacturer.toString()
             } else {
@@ -265,7 +288,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result = response.body()?.result?.properties
                 val result2 = response2.body()?.result?.properties
                 question = "Does The ${result?.name} starship have a ${result2?.model} model?"
-                answer = (result?.model == result2?.model).toString()
+                answer = result?.model == result2?.model
                 variable1 = result?.name.toString()
                 variable2 = result?.model.toString()
             } else {
@@ -294,7 +317,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result = response.body()?.result?.properties
                 val result2 = response2.body()?.result?.properties
                 question = "Is it really The ${result?.name} starship have ${result2?.crew} crew?"
-                answer = (result?.crew == result2?.crew).toString()
+                answer = result?.crew == result2?.crew
                 variable1 = result?.name.toString()
                 variable2 = result?.crew.toString()
             } else {
@@ -307,23 +330,19 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
         return@withContext Triple(variable1, variable2, question)
     }
 
-    private fun showCurrentQuestion() {
-        if (currentQuestionIndex < questions.size) {
-            view.showQuestion(questions[currentQuestionIndex].question)
-        } else {
-            view.showScore(score)
-        }
-    }
+//    private fun showCurrentQuestion() {
+//        if (currentQuestionIndex < questions.size) {
+//            view.showQuestion(questions[currentQuestionIndex].question)
+//        } else {
+//            view.showScore(score)
+//        }
+//    }
 
     override fun answerQuestion(isTrue: Boolean) {
-        if (currentQuestionIndex < questions.size) {
-            val correctAnswer = questions[currentQuestionIndex].answer
-            if (isTrue == correctAnswer) {
-                score++
-            }
-            currentQuestionIndex++
-            showCurrentQuestion()
+        if (isTrue == answer) {
+            score++
         }
+        Log.d("HALAH:D", "${score}")
     }
 
     private fun showToast(message: String) {
@@ -341,9 +360,13 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
         if (canAnswer && x < -10) {
             showToast("Tilted to the right (answer 'Yes')")
             answerQuestion(true)
+            // Panggil callback
+            view.onDetection()
         } else if (canAnswer && x > 10) {
             showToast("Tilted to the left (answer 'No')")
             answerQuestion(false)
+            // Panggil callback
+            view.onDetection()
         }
         canAnswer = false
         handler.postDelayed({ canAnswer = true }, 2000)

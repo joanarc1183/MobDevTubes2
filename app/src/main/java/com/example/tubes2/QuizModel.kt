@@ -1,3 +1,3 @@
 package com.example.tubes2
 
-data class QuizQuestion(val question: String, val answer: Boolean)
+data class QuizScore(val score: Int, val theme: String)
