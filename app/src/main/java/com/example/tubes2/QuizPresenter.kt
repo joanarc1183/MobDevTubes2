@@ -30,7 +30,7 @@ interface QuizContract {
     }
 }
 
-class QuizPresenter(private val view: QuizContract.View, private val context: Context, private var swapiRepository: SwapiRepository) : QuizContract.Presenter, SensorEventListener {
+class QuizPresenter(private val view: QuizContract.View, private val context: Context, private var swapiRepository: SwapiRepository, private val quizScoreModel: QuizScoreModel) : QuizContract.Presenter, SensorEventListener {
     private var score = 0
     private var canAnswer = true
     private val handler = Handler()
@@ -340,7 +340,8 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
 
     override fun answerQuestion(isTrue: Boolean) {
         if (isTrue == answer) {
-            score++
+            quizScoreModel.score++
+//            quizScoreModel.updateScore(score)
         }
         Log.d("HALAH:D", "${score}")
     }

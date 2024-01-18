@@ -8,6 +8,7 @@ import com.example.tubes2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    lateinit var quizScoreModel: QuizScoreModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,11 +21,10 @@ class MainActivity : AppCompatActivity() {
         val nc = connMgr.getNetworkCapabilities(connMgr.activeNetwork)
 
         if (nc != null) {
-            //
+            quizScoreModel = QuizScoreModel()
             supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, startFragment).commit()
         } else {
             // No connection
-//            this.setResult("No network connection available.")
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show()
         }
     }

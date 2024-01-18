@@ -63,7 +63,7 @@ class HomeFragment: Fragment() {
 
         // Menetapkan Bundle ke Fragment
         quizFragment.arguments = bundle
-        Log.d("astafirulah", "$theme")
+
         // Menampilkan QuizFragment
         requireFragmentManager().beginTransaction()
             .replace(R.id.fragmentContainer, quizFragment)

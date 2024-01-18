@@ -4,9 +4,7 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
-import android.hardware.SensorListener
 import android.hardware.SensorManager
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,12 +13,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.tubes2.databinding.FragmentQuizBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.random.Random
 
 class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
 
@@ -28,6 +20,7 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
     private lateinit var tvQuestion: TextView
     private lateinit var binding: FragmentQuizBinding
     private lateinit var swapiRepository: SwapiRepository
+    private lateinit var quizScoreModel: QuizScoreModel
     private var theme: String = ""
     private var length: Int = 0
     private lateinit var sensorManager: SensorManager
@@ -47,8 +40,13 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
 
         swapiRepository = SwapiRepository()
 
+//        val application = requireActivity().application as MainActivity
+//        val quizScoreModel = application.quizScoreModel
+//        quizScoreModel.score += 10
+        quizScoreModel = QuizScoreModel()
+
         // Initialize presenter and sensor
-        presenter = QuizPresenter(this, requireContext(), swapiRepository)
+        presenter = QuizPresenter(this, requireContext(), swapiRepository, quizScoreModel)
         sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
