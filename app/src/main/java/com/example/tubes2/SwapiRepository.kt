@@ -40,4 +40,8 @@ class SwapiRepository {
             swapiService.getDetailsFilms("films", id).execute()
         }
 
+    fun getLengthAsync(category: String): Deferred<Response<SwapiResponseLength>> =
+        CoroutineScope(Dispatchers.IO).async {
+            swapiService.getLength("${category}").execute()
+        }
 }

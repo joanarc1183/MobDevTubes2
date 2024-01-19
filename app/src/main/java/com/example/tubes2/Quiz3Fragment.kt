@@ -46,7 +46,7 @@ class Quiz3Fragment : Fragment(), QuizContract.View, SensorEventListener {
         // theme game and length theme
         this.theme = quizScoreModel.getTheme()
 
-        val question = presenter.startQuiz(this.theme, 10, 3)
+        val question = presenter.startQuiz(this.theme, 3)
 
         binding.isiQuestion.text = question.first
         setImageFilm(question.second)

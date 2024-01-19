@@ -16,4 +16,7 @@ interface SwapiService {
 
     @GET("{category}/{id}")
     fun getDetailsFilms(@Path("category") category: String, @Path("id") id: String): Call<SwapiResponseFilms>
+
+    @GET("{category}")
+    fun getLength(@Path("category") category: String): Call<SwapiResponseLength>
 }

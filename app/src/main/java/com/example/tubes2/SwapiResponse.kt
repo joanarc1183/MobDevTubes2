@@ -1,7 +1,5 @@
 package com.example.tubes2
 
-import java.util.Properties
-
 data class SwapiResponsePeople(
     val result: PropertiesPeople
 )
@@ -16,4 +14,8 @@ data class SwapiResponseStarships(
 
 data class SwapiResponseFilms(
     val result: PropertiesFilms
+)
+
+data class SwapiResponseLength(
+    val total_records: Int
 )

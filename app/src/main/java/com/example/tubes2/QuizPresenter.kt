@@ -17,7 +17,7 @@ interface QuizContract {
     }
 
     interface Presenter {
-        fun startQuiz(theme: String, length: Int, number: Int): Pair<String, String>
+        fun startQuiz(theme: String, number: Int): Pair<String, String>
         fun answerQuestion(isTrue: Boolean)
         fun handleSensorEvent(event: SensorEvent)
     }
@@ -36,10 +36,11 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     }
 
-    override fun startQuiz(theme: String, length: Int, number: Int): Pair<String, String> {
+    override fun startQuiz(theme: String, number: Int): Pair<String, String> {
         when (number) {
             1 -> {
                 val result = runBlocking {
+                    var length = lengthCategory(theme)
                     when (theme) {
                         "people" -> {
                             themePeople(length)
@@ -56,6 +57,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
             }
             2 -> {
                 val result = runBlocking {
+                    var length = lengthCategory(theme)
                     when (theme) {
                         "people" -> {
                             themePeople2(length)
@@ -72,6 +74,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
             }
             else -> {
                 val result = runBlocking {
+                    var length = lengthCategory(theme)
                     when (theme) {
                         "people" -> {
                             themePeople3(length)
@@ -89,11 +92,25 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
         }
     }
 
+    private suspend fun lengthCategory(category: String): Int = withContext(Dispatchers.IO) {
+        try {
+            val response = swapiRepository.getLengthAsync(category).await()
+            if (response.isSuccessful) {
+                return@withContext response.body()?.total_records!!
+            } else {
+                Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+            }
+        } catch (t: Throwable) {
+            Log.e("onFailureMsgError", "onFailure called", t)
+        }
+
+        return@withContext 0
+    }
+
     private suspend fun themeFilm(length: Int, id: Int): String = withContext(Dispatchers.IO) {
         try {
             val response = swapiRepository.getFilmDetailsAsync("$id").await()
             if (response.isSuccessful) {
-                Log.d("masukga2", "${response.body()?.result?.properties!!.title}")
                 return@withContext response.body()?.result?.properties!!.title
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")

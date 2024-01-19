@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import com.example.tubes2.databinding.FragmentQuizBinding
 
 class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
-
     private lateinit var presenter: QuizContract.Presenter
     private lateinit var binding: FragmentQuizBinding
     private lateinit var swapiRepository: SwapiRepository
@@ -47,14 +46,13 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
         // theme game and length theme
         this.theme = quizScoreModel.getTheme()
 
-        val question = presenter.startQuiz(this.theme, 10, 1)
+        val question = presenter.startQuiz(this.theme, 1)
 
         binding.isiQuestion.text = question.first
         setImageFilm(question.second)
     }
 
      private fun setImageFilm(film: String){
-         Log.d("masukga","$film")
         if (film == "A New Hope"){
             binding.imageContainer.setImageResource(R.drawable.anewhope)
         } else if (film == "The Empire Strikes Back"){
