@@ -12,7 +12,8 @@ data class ResultPeople(
     val edited: String,
     val name: String,
     val homeworld: String,
-    val url: String
+    val url: String,
+    val films: List<String>
 )
 
 data class ResultPlanets(
@@ -27,7 +28,8 @@ data class ResultPlanets(
     val created: String,
     val edited: String,
     val name: String,
-    val url: String
+    val url: String,
+    val films: List<String>
 )
 
 data class ResultStarships(
@@ -47,5 +49,10 @@ data class ResultStarships(
     val created: String,
     val edited: String,
     val name: String,
-    val url: String
+    val url: String,
+    val films: List<String>
+)
+
+data class ResultFilms(
+    val title: String
 )

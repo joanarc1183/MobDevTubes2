@@ -6,6 +6,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,9 +49,26 @@ class QuizFragment : Fragment(), QuizContract.View, SensorEventListener {
 
         val question = presenter.startQuiz(this.theme, 10, 1)
 
-        binding.isiQuestion.text = question
-
+        binding.isiQuestion.text = question.first
+        setImageFilm(question.second)
     }
+
+     private fun setImageFilm(film: String){
+         Log.d("masukga","$film")
+        if (film == "A New Hope"){
+            binding.imageContainer.setImageResource(R.drawable.anewhope)
+        } else if (film == "The Empire Strikes Back"){
+            binding.imageContainer.setImageResource(R.drawable.empirestrike)
+        } else if (film == "Return of the Jedi"){
+            binding.imageContainer.setImageResource(R.drawable.returnjedi)
+        } else if (film == "The Phantom Menace"){
+            binding.imageContainer.setImageResource(R.drawable.phantom)
+        } else if (film == "Attack of the Clones"){
+            binding.imageContainer.setImageResource(R.drawable.attackclone)
+        } else if (film == "Revenge of the Sith"){
+            binding.imageContainer.setImageResource(R.drawable.revengesith)
+        }
+     }
 
     override fun onDetection() {
         val quizFragment = Quiz2Fragment()

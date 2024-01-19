@@ -11,3 +11,7 @@ data class PropertiesPlanets(
 data class PropertiesStarships(
     val properties: ResultStarships
 )
+
+data class PropertiesFilms(
+    val properties: ResultFilms
+)

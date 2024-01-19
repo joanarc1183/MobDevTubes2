@@ -35,4 +35,9 @@ class SwapiRepository {
             swapiService.getDetailsStarships("starships", id).execute()
         }
 
+    fun getFilmDetailsAsync(id: String): Deferred<Response<SwapiResponseFilms>> =
+        CoroutineScope(Dispatchers.IO).async {
+            swapiService.getDetailsFilms("films", id).execute()
+        }
+
 }

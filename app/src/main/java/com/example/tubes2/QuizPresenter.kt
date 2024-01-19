@@ -17,7 +17,7 @@ interface QuizContract {
     }
 
     interface Presenter {
-        fun startQuiz(theme: String, length: Int, number: Int): String
+        fun startQuiz(theme: String, length: Int, number: Int): Pair<String, String>
         fun answerQuestion(isTrue: Boolean)
         fun handleSensorEvent(event: SensorEvent)
     }
@@ -36,7 +36,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     }
 
-    override fun startQuiz(theme: String, length: Int, number: Int): String {
+    override fun startQuiz(theme: String, length: Int, number: Int): Pair<String, String> {
         when (number) {
             1 -> {
                 val result = runBlocking {
@@ -89,11 +89,27 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
         }
     }
 
-    private suspend fun themePeople(length: Int): String = withContext(Dispatchers.IO) {
+    private suspend fun themeFilm(length: Int, id: Int): String = withContext(Dispatchers.IO) {
+        try {
+            val response = swapiRepository.getFilmDetailsAsync("$id").await()
+            if (response.isSuccessful) {
+                Log.d("masukga2", "${response.body()?.result?.properties!!.title}")
+                return@withContext response.body()?.result?.properties!!.title
+            } else {
+                Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
+            }
+        } catch (t: Throwable) {
+            Log.e("onFailureMsgError", "onFailure called", t)
+        }
+
+        return@withContext "Film not available"
+    }
+
+    private suspend fun themePeople(length: Int): Pair<String, String> = withContext(Dispatchers.IO) {
         val id = Random.nextInt(1, length)
         val id2 = Random.nextInt(1, length)
         var question = ""
-
+        var film = ""
         try {
             val response = swapiRepository.getPeopleDetailsAsync("$id").await()
             val response2 = swapiRepository.getPeopleDetailsAsync("$id2").await()
@@ -109,14 +125,14 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
             Log.e("onFailureMsgError", "onFailure called", t)
         }
 
-        return@withContext question
+        return@withContext Pair(question, film)
     }
 
-    private suspend fun themePeople2(length: Int): String = withContext(Dispatchers.IO) {
+    private suspend fun themePeople2(length: Int): Pair<String, String> = withContext(Dispatchers.IO) {
         val id = Random.nextInt(1, length)
         val id2 = Random.nextInt(1, length)
         var question = ""
-
+        var film = ""
         try {
             val response = swapiRepository.getPeopleDetailsAsync("$id").await()
             val response2 = swapiRepository.getPeopleDetailsAsync("$id2").await()
@@ -125,6 +141,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result?.name} ${result2?.gender}?"
                 answer = result?.gender == result2?.gender
+                film = themeFilm(length, id)
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -132,14 +149,14 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
             Log.e("onFailureMsgError", "onFailure called", t)
         }
 
-        return@withContext question
+        return@withContext Pair(question, film)
     }
 
-    private suspend fun themePeople3(length: Int): String = withContext(Dispatchers.IO) {
+    private suspend fun themePeople3(length: Int): Pair<String, String> = withContext(Dispatchers.IO) {
         val id = Random.nextInt(1, length)
         val id2 = Random.nextInt(1, length)
         var question = ""
-
+        var film = ""
         try {
             val response = swapiRepository.getPeopleDetailsAsync("$id").await()
             val response2 = swapiRepository.getPeopleDetailsAsync("$id2").await()
@@ -148,6 +165,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result?.name} ${result2?.height} cm tall?"
                 answer = result?.height == result2?.height
+                film = themeFilm(length, id)
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -155,14 +173,14 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
             Log.e("onFailureMsgError", "onFailure called", t)
         }
 
-        return@withContext question
+        return@withContext Pair(question, film)
     }
 
-    private suspend fun themePlanets(length: Int): String = withContext(Dispatchers.IO) {
+    private suspend fun themePlanets(length: Int): Pair<String, String> = withContext(Dispatchers.IO) {
         val id = Random.nextInt(1, length)
         val id2 = Random.nextInt(1, length)
         var question = ""
-
+        var film = ""
         try {
             val response = swapiRepository.getPlanetsDetailsAsync("$id").await()
             val response2 = swapiRepository.getPlanetsDetailsAsync("$id2").await()
@@ -171,6 +189,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result2?.terrain} the terrain of the planet ${result?.name}?"
                 answer = result?.terrain == result2?.terrain
+                film = themeFilm(length, id)
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -178,14 +197,14 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
             Log.e("onFailureMsgError", "onFailure called", t)
         }
 
-        return@withContext question
+        return@withContext Pair(question, film)
     }
 
-    private suspend fun themePlanets2(length: Int): String = withContext(Dispatchers.IO) {
+    private suspend fun themePlanets2(length: Int): Pair<String, String> = withContext(Dispatchers.IO) {
         val id = Random.nextInt(1, length)
         val id2 = Random.nextInt(1, length)
         var question = ""
-
+        var film = ""
         try {
             val response = swapiRepository.getPlanetsDetailsAsync("$id").await()
             val response2 = swapiRepository.getPlanetsDetailsAsync("$id2").await()
@@ -194,6 +213,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Does ${result?.name} have ${result2?.climate} climate?"
                 answer = result?.climate == result2?.climate
+                film = themeFilm(length, id)
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -201,14 +221,14 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
             Log.e("onFailureMsgError", "onFailure called", t)
         }
 
-        return@withContext question
+        return@withContext Pair(question, film)
     }
 
-    private suspend fun themePlanets3(length: Int): String = withContext(Dispatchers.IO) {
+    private suspend fun themePlanets3(length: Int): Pair<String, String> = withContext(Dispatchers.IO) {
         val id = Random.nextInt(1, length)
         val id2 = Random.nextInt(1, length)
         var question = ""
-
+        var film = ""
         try {
             val response = swapiRepository.getPlanetsDetailsAsync("$id").await()
             val response2 = swapiRepository.getPlanetsDetailsAsync("$id2").await()
@@ -217,6 +237,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is The ${result?.name} ${result2?.diameter} km in diameter?"
                 answer = result?.diameter == result2?.diameter
+                film = themeFilm(length, id)
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -224,16 +245,16 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
             Log.e("onFailureMsgError", "onFailure called", t)
         }
 
-        return@withContext question
+        return@withContext Pair(question, film)
     }
 
-    private suspend fun themeStarships(length: Int): String = withContext(Dispatchers.IO) {
+    private suspend fun themeStarships(length: Int): Pair<String, String> = withContext(Dispatchers.IO) {
         val availableNumbers = listOf(2, 3, 5, 9, 11, 10, 13, 15, 12, 17)
         val randomIndex = Random.nextInt(availableNumbers.size)
         val id = availableNumbers[randomIndex]
         val id2 = availableNumbers[randomIndex]
         var question = ""
-
+        var film = ""
         try {
             val response = swapiRepository.getStarshipsDetailsAsync("$id").await()
             val response2 = swapiRepository.getStarshipsDetailsAsync("$id2").await()
@@ -242,6 +263,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result?.name} starship manufactured by ${result2?.manufacturer}?"
                 answer = result?.manufacturer == result2?.manufacturer
+                film = themeFilm(length, id)
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -249,16 +271,16 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
             Log.e("onFailureMsgError", "onFailure called", t)
         }
 
-        return@withContext question
+        return@withContext Pair(question, film)
     }
 
-    private suspend fun themeStarships2(length: Int): String = withContext(Dispatchers.IO) {
+    private suspend fun themeStarships2(length: Int): Pair<String, String> = withContext(Dispatchers.IO) {
         val availableNumbers = listOf(2, 3, 5, 9, 11, 10, 13, 15, 12, 17)
         val randomIndex = Random.nextInt(availableNumbers.size)
         val id = availableNumbers[randomIndex]
         val id2 = availableNumbers[randomIndex]
         var question = ""
-
+        var film = ""
         try {
             val response = swapiRepository.getStarshipsDetailsAsync("$id").await()
             val response2 = swapiRepository.getStarshipsDetailsAsync("$id2").await()
@@ -267,6 +289,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Does The ${result?.name} starship have a ${result2?.model} model?"
                 answer = result?.model == result2?.model
+                film = themeFilm(length, id)
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -274,16 +297,16 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
             Log.e("onFailureMsgError", "onFailure called", t)
         }
 
-        return@withContext question
+        return@withContext Pair(question, film)
     }
 
-    private suspend fun themeStarships3(length: Int): String = withContext(Dispatchers.IO) {
+    private suspend fun themeStarships3(length: Int): Pair<String, String> = withContext(Dispatchers.IO) {
         val availableNumbers = listOf(2, 3, 5, 9, 11, 10, 13, 15, 12, 17)
         val randomIndex = Random.nextInt(availableNumbers.size)
         val id = availableNumbers[randomIndex]
         val id2 = availableNumbers[randomIndex]
         var question = ""
-
+        var film = ""
         try {
             val response = swapiRepository.getStarshipsDetailsAsync("$id").await()
             val response2 = swapiRepository.getStarshipsDetailsAsync("$id2").await()
@@ -292,6 +315,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is it really The ${result?.name} starship have ${result2?.crew} crew?"
                 answer = result?.crew == result2?.crew
+                film = themeFilm(length, id)
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -299,7 +323,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
             Log.e("onFailureMsgError", "onFailure called", t)
         }
 
-        return@withContext question
+        return@withContext Pair(question, film)
     }
 
     override fun answerQuestion(isTrue: Boolean) {
