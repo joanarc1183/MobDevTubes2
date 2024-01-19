@@ -39,6 +39,8 @@ class ScoreFragment : Fragment() {
         val fragmentContainer = requireActivity().findViewById<View>(R.id.fragmentContainer)
 
         button_play.setOnClickListener {
+            quizScoreModel.updateScore(0)
+
             val homeFragment = HomeFragment()
             val transaction: FragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
             transaction.replace(fragmentContainer.id, homeFragment)
