@@ -107,7 +107,8 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
         return@withContext 0
     }
 
-    private suspend fun themeFilm(length: Int, id: Int): String = withContext(Dispatchers.IO) {
+    private suspend fun themeFilm(): String = withContext(Dispatchers.IO) {
+        val id = Random.nextInt(1, 6)
         try {
             val response = swapiRepository.getFilmDetailsAsync("$id").await()
             if (response.isSuccessful) {
@@ -158,7 +159,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result?.name} ${result2?.gender}?"
                 answer = result?.gender == result2?.gender
-                film = themeFilm(length, id)
+                film = themeFilm()
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -182,7 +183,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result?.name} ${result2?.height} cm tall?"
                 answer = result?.height == result2?.height
-                film = themeFilm(length, id)
+                film = themeFilm()
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -206,7 +207,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result2?.terrain} the terrain of the planet ${result?.name}?"
                 answer = result?.terrain == result2?.terrain
-                film = themeFilm(length, id)
+                film = themeFilm()
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -230,7 +231,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Does ${result?.name} have ${result2?.climate} climate?"
                 answer = result?.climate == result2?.climate
-                film = themeFilm(length, id)
+                film = themeFilm()
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -254,7 +255,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is The ${result?.name} ${result2?.diameter} km in diameter?"
                 answer = result?.diameter == result2?.diameter
-                film = themeFilm(length, id)
+                film = themeFilm()
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -280,7 +281,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is ${result?.name} starship manufactured by ${result2?.manufacturer}?"
                 answer = result?.manufacturer == result2?.manufacturer
-                film = themeFilm(length, id)
+                film = themeFilm()
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -306,7 +307,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Does The ${result?.name} starship have a ${result2?.model} model?"
                 answer = result?.model == result2?.model
-                film = themeFilm(length, id)
+                film = themeFilm()
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
@@ -332,7 +333,7 @@ class QuizPresenter(private val view: QuizContract.View, private val context: Co
                 val result2 = response2.body()?.result?.properties
                 question = "Is it really The ${result?.name} starship have ${result2?.crew} crew?"
                 answer = result?.crew == result2?.crew
-                film = themeFilm(length, id)
+                film = themeFilm()
             } else {
                 Log.e("UnsuccessfulMsgError", "Unsuccessful response from API")
             }
